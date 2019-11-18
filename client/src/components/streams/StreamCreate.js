@@ -2,6 +2,8 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 // Field starts with UpperCase because it is a React Component. reduxForm starts with 
 // lowercase because it is a function. It is just like connect and has the exact same functionality.
+import { connect } from 'react-redux';
+import { createStream } from '../../actions'
 
 
 class StreamCreate extends React.Component{
@@ -35,8 +37,8 @@ class StreamCreate extends React.Component{
         )
     }
 
-    onSubmit(formValues){
-        console.log(formValues)
+    onSubmit = (formValues) =>{
+        this.props.createStream(formValues);
     }
 
 
@@ -65,7 +67,10 @@ const validate = (formValues) => {
     return errors;
 }
 
-export default reduxForm({
+const formWrapped =  reduxForm({
     form: 'streamCreate',
     validate: validate
 })(StreamCreate);
+
+
+export default connect(null, {createStream})(formWrapped);
